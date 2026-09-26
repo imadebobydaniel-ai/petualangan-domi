@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Petualangan Domi: game tebak-tebakan kisah Alkitab untuk anak-anak.">
 <meta name="theme-color" content="#1F2A55">
+<meta http-equiv="Cache-Control" content="no-cache">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%91%3C/text%3E%3C/svg%3E">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}html{height:100%;box-sizing:border-box}</style>
 <title>Petualangan Domi</title>
@@ -199,6 +200,19 @@
   .prow .rk{font-size:26px;width:34px;text-align:center;font-weight:800;font-family:var(--display);color:var(--ink-soft)}
   .prow .del{font-size:13px;font-weight:800;border-radius:999px;padding:6px 10px;background:#FBE1DA;color:var(--coral-d)}
   .prow .del.sure{background:var(--coral);color:#fff}
+  .node.finale{width:230px;margin-left:auto!important;margin-right:auto!important;margin-top:24px}
+  .isle.jesus{width:180px;height:180px;font-size:0;padding:0;overflow:hidden;
+    background:radial-gradient(circle at 50% 40%,#FFF3C9 0,#F2C96B 55%,#C9962E 100%);border-color:#FFF6E3}
+  .isle.jesus svg{width:100%;height:100%;display:block;transform:translateY(8px)}
+  .node.finale.ready .isle.jesus{animation:halo 2.2s ease-in-out infinite}
+  @keyframes halo{50%{box-shadow:0 8px 0 rgba(0,0,0,.28),0 0 0 10px rgba(242,201,107,.35),0 0 40px 14px rgba(255,232,160,.55)}}
+  .node.finale .nm{font-size:22px;color:var(--sand)}
+  .node.finale .rf{font-size:15px;color:var(--paper)}
+  .crown-stage{position:relative;width:min(280px,72vw);aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle at 50% 40%,#FFF3C9 0,#F2C96B 55%,#C9962E 100%);border:8px solid var(--paper);
+    box-shadow:0 0 0 8px var(--sand-d),0 0 60px 20px rgba(255,232,160,.45);overflow:hidden;max-width:100%}
+  .crown-stage svg{width:100%;height:100%;display:block;transform:translateY(10px)}
+  .winner{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin-top:4px}
   .music-btn{position:absolute;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:25;width:52px;height:52px;border-radius:50%;
     background:var(--sand);color:var(--ink);font-size:24px;display:grid;place-items:center;box-shadow:0 5px 0 var(--sand-d)}
   .music-btn.off{background:rgba(255,255,255,.18);box-shadow:0 5px 0 rgba(0,0,0,.25)}
@@ -354,7 +368,7 @@
           <li>Selesaikan pulau untuk membuka pulau berikutnya dan mendapat lencana.</li>
           <li>Tukar bintang di Lemari Domi dengan hadiah untuk Domi.</li>
         </ul>
-        <div class="credit">Musik menu: "Yesus Sayang Padaku" (Jesus Loves Me), William B. Bradbury, 1862, domain publik. Versi 1.0</div>
+        <div class="credit">Musik menu: "Yesus Sayang Padaku" (Jesus Loves Me), William B. Bradbury, 1862, domain publik. Versi 1.4</div>
       </div>
     </div>
   </section>
@@ -417,6 +431,25 @@
       <div class="home-row">
         <button class="btn sand small" data-go="ward">Lemari Domi</button>
         <button class="btn green small" data-go="map">Lihat Peta</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CROWN (end of the adventure) -->
+  <section class="screen" id="crown" hidden>
+    <div class="center" style="padding-block:28px 96px">
+      <div class="crown-stage" id="crJesus"></div>
+      <p class="h1" id="crTitle">Selamat!</p>
+      <p class="sub">Yesus, Gembala yang Baik, sudah menunggumu di akhir petualangan dan memberimu mahkota!</p>
+      <div class="winner"><div id="crAva"></div><div style="width:150px" id="crDomi"></div></div>
+      <div class="card scroll" style="max-width:420px;text-align:left">
+        <span class="ref">2 Timotius 4:8</span>
+        <p style="font-weight:700;font-size:19px;line-height:1.5;margin:10px 0 0">Rasul Paulus menulis bahwa Tuhan sudah menyediakan mahkota, bukan hanya untuk dia, tetapi juga untuk semua orang yang mengasihi Tuhan dan menantikan kedatangan-Nya.</p>
+      </div>
+      <p class="sub" id="crNote"></p>
+      <div class="home-row">
+        <button class="btn sand small" data-go="ward">Lemari Domi</button>
+        <button class="btn green small" data-go="map">Kembali ke Peta</button>
       </div>
     </div>
   </section>
@@ -1499,6 +1532,7 @@ const ITEMS = [
  {id:"scarf", name:"Syal Merah",   ic:"🧣", cost:16},
  {id:"bell",  name:"Lonceng Emas", ic:"🔔", cost:26},
  {id:"crown", name:"Mahkota Bunga",ic:"🌼", cost:36},
+ {id:"royal", name:"Mahkota dari Yesus",ic:"👑", cost:0, award:true},
 ];
 const TYPE_LABEL = {who:"Siapakah Aku?", pick:"Pilih yang Benar", tf:"Benar atau Salah?", order:"Urutkan Cerita", verse:"Lengkapi Ayat"};
 const CHEERS = ["Hebat!","Pintar sekali!","Luar biasa!","Mantap!","Kamu hebat!"];
@@ -1571,6 +1605,7 @@ function domiSVG(worn){
    <path d="M88 98 q6 6 12 0" stroke="#1A1526" stroke-width="3" fill="none" stroke-linecap="round"/>
    ${has("scarf")?`<path d="M64 108 q30 16 62 0 l2 10 q-33 16 -66 0z" fill="#F2785C" stroke="#C9533B" stroke-width="2"/><path d="M110 118 l6 26 l10 -4 l-6 -24z" fill="#F2785C" stroke="#C9533B" stroke-width="2"/>`:""}
    ${has("crown")?`<g><circle cx="72" cy="44" r="7" fill="#FFD43B"/><circle cx="86" cy="36" r="7" fill="#F2785C"/><circle cx="100" cy="33" r="7" fill="#FFD43B"/><circle cx="114" cy="36" r="7" fill="#9775FA"/><circle cx="126" cy="44" r="7" fill="#FFD43B"/><circle cx="72" cy="44" r="2.5" fill="#C9962E"/><circle cx="100" cy="33" r="2.5" fill="#C9962E"/><circle cx="126" cy="44" r="2.5" fill="#C9962E"/></g>`:""}
+   ${has("royal")?`<g><path d="M68 48 L72 20 L85 34 L96 12 L107 34 L120 20 L124 48 Z" fill="#F2C96B" stroke="#C9962E" stroke-width="3" stroke-linejoin="round"/><rect x="67" y="44" width="58" height="9" rx="3" fill="#E0A53A" stroke="#C9962E" stroke-width="2"/><circle cx="96" cy="30" r="4" fill="#F2785C"/><circle cx="80" cy="40" r="3" fill="#4DABF7"/><circle cx="112" cy="40" r="3" fill="#69DB7C"/><circle cx="72" cy="19" r="3" fill="#FFF3C9"/><circle cx="96" cy="11" r="3" fill="#FFF3C9"/><circle cx="120" cy="19" r="3" fill="#FFF3C9"/></g>`:""}
    ${has("hat")?`<g><ellipse cx="96" cy="44" rx="44" ry="10" fill="#A8773A" stroke="#7A5424" stroke-width="3"/><path d="M72 44 q2 -30 24 -30 q22 0 24 30z" fill="#C4914E" stroke="#7A5424" stroke-width="3"/><path d="M73 38 h46" stroke="#F2785C" stroke-width="5"/></g>`:""}
   </svg>`;
 }
@@ -1738,7 +1773,7 @@ const Music = (function(){
 
 /* ================= NAV ================= */
 const $ = id => document.getElementById(id);
-const screens = ["home","map","story","quiz","finish","ward","scores","settings","about","profile","players"];
+const screens = ["home","map","story","quiz","finish","ward","scores","settings","about","profile","players","crown"];
 function show(name){
   hush();
   screens.forEach(s=>$(s).hidden = s!==name);
@@ -1876,12 +1911,58 @@ $("setSfx").onchange=e=>{ SET.sfx=e.target.checked; saveSet(); sfx.tap(); };
 $("setNarr").onchange=e=>{ SET.narr=e.target.checked; saveSet(); if(!SET.narr) hush(); };
 $("setBig").onchange=e=>{ SET.big=e.target.checked; saveSet(); $("app").classList.toggle("big",SET.big); };
 
+/* ================= JESUS (end of map) ================= */
+function jesusSVG(){
+  return `<svg viewBox="0 0 200 200" role="img" aria-label="Yesus memegang mahkota">
+    <g opacity=".55" stroke="#FFF8DC" stroke-width="3" stroke-linecap="round">
+      <path d="M100 8 v16"/><path d="M40 30 l10 12"/><path d="M160 30 l-10 12"/><path d="M18 80 h16"/><path d="M182 80 h-16"/>
+    </g>
+    <path d="M58 118 Q100 102 142 118 L166 210 H34 Z" fill="#FFFDF7" stroke="#E7DDC6" stroke-width="3"/>
+    <path d="M60 118 Q76 110 92 116 L150 210 H116 Z" fill="#B5485B"/>
+    <path d="M60 122 Q46 150 84 160" stroke="#FFFDF7" stroke-width="20" fill="none" stroke-linecap="round"/>
+    <path d="M140 122 Q154 150 116 160" stroke="#FFFDF7" stroke-width="20" fill="none" stroke-linecap="round"/>
+    <path d="M68 58 Q100 18 132 58 L138 112 Q100 124 62 112 Z" fill="#6B4226"/>
+    <rect x="91" y="88" width="18" height="18" fill="#E2AE7E"/>
+    <ellipse cx="100" cy="66" rx="24" ry="28" fill="#E8B98A"/>
+    <path d="M77 72 Q100 110 123 72 Q120 96 100 100 Q80 96 77 72 Z" fill="#6B4226"/>
+    <path d="M75 58 Q100 28 125 58 Q113 44 100 46 Q87 44 75 58 Z" fill="#6B4226"/>
+    <path d="M86 64 q5 -5 10 0" stroke="#3A2A1E" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M104 64 q5 -5 10 0" stroke="#3A2A1E" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="84" cy="74" rx="5" ry="3" fill="#F29A8B" opacity=".6"/><ellipse cx="116" cy="74" rx="5" ry="3" fill="#F29A8B" opacity=".6"/>
+    <path d="M93 84 q7 6 14 0" stroke="#F6EAD6" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <g>
+      <path d="M72 158 L76 128 L88 142 L100 120 L112 142 L124 128 L128 158 Z" fill="#F2C96B" stroke="#C9962E" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="70" y="152" width="60" height="10" rx="3" fill="#E0A53A" stroke="#C9962E" stroke-width="2"/>
+      <circle cx="100" cy="138" r="5" fill="#F2785C"/><circle cx="84" cy="150" r="3.5" fill="#4DABF7"/><circle cx="116" cy="150" r="3.5" fill="#69DB7C"/>
+      <circle cx="76" cy="127" r="3.5" fill="#FFF3C9"/><circle cx="100" cy="119" r="3.5" fill="#FFF3C9"/><circle cx="124" cy="127" r="3.5" fill="#FFF3C9"/>
+    </g>
+    <circle cx="80" cy="161" r="8" fill="#E8B98A"/><circle cx="120" cy="161" r="8" fill="#E8B98A"/>
+    <g fill="#FFF8DC"><path d="M56 128 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z"/><path d="M146 116 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/></g>
+  </svg>`;
+}
+const allDone = () => ISLANDS.filter(i=>!i.soon).every(i=>isDone(i.id));
+function openCrown(){
+  const first = !S.owned.includes("royal");
+  if(first){
+    S.owned.push("royal");
+    S.worn = S.worn.filter(x=>x!=="hat" && x!=="crown").concat("royal");
+    save();
+  }
+  $("crJesus").innerHTML=jesusSVG();
+  $("crTitle").textContent = me() ? `Selamat, ${me().name}!` : "Selamat, Pemenang!";
+  $("crAva").innerHTML = me() ? avatar(me(),84) : "";
+  $("crDomi").innerHTML = domiSVG();
+  $("crNote").textContent = first ? "Domi sekarang memakai Mahkota dari Yesus. Kamu bisa melepas atau memakainya di Lemari Domi." : "Mahkotamu tersimpan di Lemari Domi.";
+  show("crown"); sfx.win(); confetti(first?140:60);
+}
+
 /* ================= MAP ================= */
 function renderMap(){
   $("mapStars").textContent=wallet();
   const wrap=$("path");
   const firstOpen = ISLANDS.findIndex((isl,i)=>unlocked(i)&&!isDone(isl.id));
-  const markerAt = firstOpen>=0 ? firstOpen : ISLANDS.length-1;
+  const markerAt = firstOpen>=0 ? firstOpen : -1;
+  const ready = allDone();
   wrap.innerHTML = `<svg class="trail" id="trail"></svg>` + ISLANDS.map((isl,i)=>{
     const open=unlocked(i), done=isDone(isl.id);
     const st = done ? "⭐".repeat(Math.round(S.best[isl.id]/5)) + "☆".repeat(3-Math.round(S.best[isl.id]/5)) : "";
@@ -1892,8 +1973,17 @@ function renderMap(){
       <div class="rf">${isl.ref}</div>
       ${isl.soon?`<div class="soon">Segera hadir</div>`:`<div class="st">${st}</div>`}
     </button>`;
-  }).join("");
-  wrap.querySelectorAll(".node").forEach(n=>n.onclick=()=>{
+  }).join("") + `<button class="node finale ${ready?"ready":""}" id="finaleNode" aria-label="Yesus menunggumu di akhir petualangan">
+      ${ready?`<div class="marker">${domiSVG()}</div>`:""}
+      <div class="isle jesus">${jesusSVG()}</div>
+      <div class="nm">Yesus Menunggumu</div>
+      <div class="rf">${ready?"Ketuk untuk menerima mahkota!":"Selesaikan semua pulau untuk menerima mahkota"}</div>
+    </button>`;
+  $("finaleNode").onclick=()=>{
+    if(allDone()){ sfx.tap(); openCrown(); }
+    else { sfx.wrong(); toast("Selesaikan semua pulau dulu ya!"); }
+  };
+  wrap.querySelectorAll(".node[data-i]").forEach(n=>n.onclick=()=>{
     const i=+n.dataset.i, isl=ISLANDS[i];
     if(isl.soon){ sfx.wrong(); toast("Pulau ini segera hadir!"); return; }
     if(!unlocked(i)){ sfx.wrong(); toast("Selesaikan pulau sebelumnya dulu ya"); return; }
@@ -2055,11 +2145,18 @@ function finishIsland(){
   $("finTitle").textContent= me() ? `Hebat, ${me().name}!` : `${isl.name} selesai!`;
   $("finSub").textContent = prev==null ? `${isl.name} selesai. Kamu mendapat ${isl.badgeName}!` : (improved?"Rekor barumu di pulau ini!":"Terima kasih sudah bermain lagi!");
   $("finStars").textContent="⭐".repeat(rating)+"☆".repeat(3-rating);
-  $("finNote").textContent = cur.island===ISLANDS.length-1 && prev==null ? `Domi sudah pulang kepada Gembala yang Baik! ${cur.earned} dari ${max} bintang.` : `${cur.earned} dari ${max} bintang. Tukar bintangmu di Lemari Domi.`;
+  $("finNote").textContent = cur.island===ISLANDS.length-1 && prev==null ? `Domi sudah sampai! Yesus menunggumu dengan mahkota. ${cur.earned} dari ${max} bintang.` : `${cur.earned} dari ${max} bintang. Tukar bintangmu di Lemari Domi.`;
   const next=nextPlayable(cur.island);
   const hasNext = next>=0;
-  $("finNext").hidden=!hasNext;
-  $("finNext").onclick=()=>{ sfx.tap(); openStory(next); };
+  if(hasNext){
+    $("finNext").hidden=false; $("finNext").textContent="Pulau Berikutnya";
+    $("finNext").onclick=()=>{ sfx.tap(); openStory(next); };
+  } else if(allDone()){
+    $("finNext").hidden=false; $("finNext").textContent="Temui Yesus 👑";
+    $("finNext").onclick=()=>{ sfx.tap(); openCrown(); };
+  } else {
+    $("finNext").hidden=true;
+  }
   show("finish"); sfx.win(); confetti(80);
 }
 
@@ -2072,7 +2169,8 @@ function renderWard(){
   $("wardGrid").innerHTML=ITEMS.map(it=>{
     const own=S.owned.includes(it.id), worn=S.worn.includes(it.id);
     let btn;
-    if(!own) btn=`<button data-buy="${it.id}" ${wallet()<it.cost?"disabled":""}>⭐ ${it.cost}</button>`;
+    if(!own && it.award) btn=`<button disabled>🔒 Hadiah akhir</button>`;
+    else if(!own) btn=`<button data-buy="${it.id}" ${wallet()<it.cost?"disabled":""}>⭐ ${it.cost}</button>`;
     else btn=`<button data-wear="${it.id}" class="${worn?"on":"off"}">${worn?"Dipakai ✓":"Pakai"}</button>`;
     return `<div class="item"><div class="ic">${it.ic}</div><div class="n">${it.name}</div>${btn}</div>`;
   }).join("");
